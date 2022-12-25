@@ -1,0 +1,221 @@
+[][][]][][][][][][][][][][][][][][][][][][]
+включить вентилятор по датчику температуры
+[][][][][][][][][][][][][][][][][][][][][]
+
+#define TRIG 2
+#define ECHO 3
+#define FORWARD 6
+#define AHEAD 4
+#define RED 9
+#define GREEN 11
+
+int getDistance()
+{
+  digitalWrite(TRIG, 1);
+  delayMicroseconds (5);
+  digitalWrite(TRIG, 0);
+  return pulseIn (ECHO,1)*0.01715+2;
+}
+bool state =0;
+int dist;
+void setup ()
+{
+  pinMode (TRIG, OUTPUT);
+  pinMode (ECHO, INPUT);
+  pinMode (FORWARD, OUTPUT);
+  pinMode (AHEAD, OUTPUT);
+  pinMode (RED, OUTPUT);
+  pinMode (GREEN, OUTPUT);
+  Serial.begin(9600);
+}
+void loop()
+{
+  dist = getDistance();
+  if(state)
+  {
+    if(dist>110)
+    {
+      state = 0;
+      digitalWrite (FORWARD, 0);
+      digitalWrite (AHEAD, 0);
+      digitalWrite (RED, 0);
+      digitalWrite (GREEN, 0);
+    }
+  }else
+  {
+    if(dist<100)
+    {
+      state = 1;
+        digitalWrite (FORWARD, 1);
+      digitalWrite (AHEAD, 1);
+      digitalWrite (RED, 1);
+      digitalWrite (GREEN, 0);
+    }
+  }
+  Serial.println(dist);
+}
+   
+
+[][][][][][[][][]
+двигатели и уз
+[][][][][][[][][]
+
+
+#define TRIG 2
+#define ECHO 3
+#define FORWARD 6
+#define AHEAD 4
+#define RED 9
+#define GREEN 11
+
+int getDistance()
+{
+  digitalWrite(TRIG, 1);
+  delayMicroseconds (5);
+  digitalWrite(TRIG, 0);
+  return pulseIn (ECHO,1)*0.01715+2;
+}
+bool state =0;
+int dist;
+void setup ()
+{
+  pinMode (TRIG, OUTPUT);
+  pinMode (ECHO, INPUT);
+  pinMode (FORWARD, OUTPUT);
+  pinMode (AHEAD, OUTPUT);
+  pinMode (RED, OUTPUT);
+  pinMode (GREEN, OUTPUT);
+  Serial.begin(9600);
+}
+void loop()
+{
+  dist = getDistance();
+  if(state)
+  {
+    if(dist>110)
+    {
+      state = 0;
+      digitalWrite (FORWARD, 0);
+      digitalWrite (AHEAD, 0);
+      digitalWrite (RED, 0);
+      digitalWrite (GREEN, 0);
+    }
+  }else
+  {
+    if(dist<100)
+    {
+      state = 1;
+        digitalWrite (FORWARD, 1);
+      digitalWrite (AHEAD, 1);
+      digitalWrite (RED, 1);
+      digitalWrite (GREEN, 0);
+    }
+  }
+  Serial.println(dist);
+}
+      
+
+
+[][][][][]][][][][][][][]
+эквалайзер с уз датчиком
+[][][][]][[][][][][][][][]
+
+
+#define TRIG 3
+#define ECHO 2
+int getDistance()
+{
+  digitalWrite (TRIG, 1);
+  delayMicroseconds (5);
+  digitalWrite (TRIG, 0);
+  return pulseIn (ECHO, 1)*0.01715+2;
+}
+int leds[6] = {9,8,7,6,5,4};
+int trigs[6];
+int min = 2;
+int max = 335;
+
+void setup()
+{
+  pinMode (TRIG, OUTPUT);
+  pinMode (ECHO, INPUT);
+  for(int i = 0; 1 < 6; i++)
+  {
+    pinMode (leds [1], OUTPUT);
+  }
+  for(int i = 0, increment = (max-min)/7, start = min+increment*0.5; i < 6; i++)
+      {
+    trigs[i] = increment*i+start;
+  }
+    Serial.begin(9600);
+      }
+      void show(int value)
+      {
+        if(value > max)
+          value=0;
+        for(int i = 0; i < 6; i++)
+        {
+          if(value>trigs[1])
+            digitalWrite(leds[i], 1);
+          else
+            digitalWrite(leds[i], 0);
+        }
+      }
+      int dist;
+      void loop()
+      {
+        dist = getDistance();
+        show(dist);
+        Serial.println(dist);
+      }
+
+
+
+[][][][][][][][][][][][][][][]][[][][][][][][][][][][][][][][][]][]
+Управление реле и лампой с помощью подсоединяемой к ардуино кнопки
+[][][][][]][[][][][][][][][][][][][][][][][]][[][][][][][][][][][][]
+
+// C++ code
+//
+void setup()
+{
+  pinMode(7, OUTPUT);
+  pinMode(3, INPUT);
+}
+
+void loop()
+{
+int buttonState = digitalRead(2);
+  if (buttonState==HIGH) {
+  digitalWrite(7, HIGH);
+}
+  else {
+    digitalWrite(7, LOW);
+  }
+}
+
+
+
+[][][][][][][]][][][][][][][]][][]][][][][][][][][]][[][][]
+Контроль направления вращения двигателя с помощью 2 реле
+[][][][][][][][][][][][][][][][][][][][][]][][][][][][][]][]
+
+
+// C++ code
+//
+
+int buttom = 2;
+void setup()
+{
+pinMode (4, INPUT);
+  pinMode(8, OUTPUT);
+  pinMode(8, OUTPUT);
+  
+}
+
+void loop() {
+  bool val=digitalRead (buttom);
+  digitalWrite(8, val);
+  digitalWrite(12, val);
+
+}
